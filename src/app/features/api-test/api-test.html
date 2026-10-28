@@ -1,0 +1,9 @@
+<h1>Test TheMealDB</h1>
+
+<button (click)="testRandom()">Plat au hasard</button>
+<button (click)="testSearch()">Recherche « Arrabiata »</button>
+<button (click)="testArea()">Plats japonais</button>
+<button (click)="testEmpty()">Recherche vide</button>
+<button (click)="testLookup()">Fiche détaillée (id 52772)</button>
+
+<pre>{{ result() | json }}</pre>
