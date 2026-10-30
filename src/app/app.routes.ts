@@ -6,7 +6,6 @@ import { Roulette } from './features/roulette/roulette';
 import { Recipes } from './features/recipes/recipes';
 import { Map } from './features/map/map';
 import { Journal } from './features/journal/journal';
-import { ApiTest } from './features/api-test/api-test';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'roulette', pathMatch: 'full' },
@@ -17,6 +16,5 @@ export const routes: Routes = [
   { path: 'recipes', component: Recipes },
   { path: 'map', component: Map },
   { path: 'journal', component: Journal },
-  { path: 'api-test', component: ApiTest },
   { path: '**', redirectTo: 'roulette' },
 ];
