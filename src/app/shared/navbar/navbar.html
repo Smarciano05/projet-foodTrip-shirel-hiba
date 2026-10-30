@@ -1,1 +1,20 @@
-<p>navbar works!</p>
+<nav>
+  <a class="brand" routerLink="/roulette">🍜 Food Trip</a>
+
+  <div class="links">
+    <a routerLink="/roulette" routerLinkActive="active">Roulette</a>
+    <a routerLink="/recipes" routerLinkActive="active">Recettes</a>
+    <a routerLink="/map" routerLinkActive="active">Carte</a>
+    <a routerLink="/journal" routerLinkActive="active">Carnet</a>
+  </div>
+
+  <div class="account">
+    @if (auth.isLoggedIn()) {
+    <a routerLink="/profile" routerLinkActive="active">👤 {{ auth.user()?.name }}</a>
+    <button type="button" class="secondary" (click)="auth.logout()">Déconnexion</button>
+    } @else {
+    <a routerLink="/login" routerLinkActive="active">Connexion</a>
+    <a routerLink="/register" class="cta">Inscription</a>
+    }
+  </div>
+</nav>

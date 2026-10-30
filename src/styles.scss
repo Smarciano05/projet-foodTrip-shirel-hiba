@@ -1,1 +1,183 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --primary: #c2410c;
+  --primary-dark: #9a3412;
+  --primary-soft: #ffedd5;
+  --bg: #fffaf3;
+  --surface: #ffffff;
+  --text: #292524;
+  --muted: #78716c;
+  --border: #e7e5e4;
+  --danger: #b91c1c;
+  --danger-soft: #fee2e2;
+  --success: #15803d;
+  --success-soft: #dcfce7;
+  --radius: 12px;
+  --shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+}
+
+main {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 4rem;
+}
+
+h1 {
+  margin: 0 0 1.25rem;
+  font-size: 1.8rem;
+}
+
+a {
+  color: var(--primary);
+}
+
+img {
+  max-width: 100%;
+}
+
+/* ---------- Boutons ---------- */
+button {
+  font: inherit;
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  padding: 0.65rem 1.1rem;
+  font-weight: 600;
+  background: var(--primary);
+  color: #fff;
+  transition: background 0.15s;
+
+  &:hover:not(:disabled) {
+    background: var(--primary-dark);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  &.secondary {
+    background: transparent;
+    color: var(--primary);
+    border: 1px solid var(--primary);
+
+    &:hover:not(:disabled) {
+      background: var(--primary-soft);
+    }
+  }
+}
+
+/* ---------- Formulaires (connexion, inscription, profil) ---------- */
+.auth {
+  max-width: 420px;
+  margin: 1rem auto;
+  padding: 2rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+
+  h1 {
+    text-align: center;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+  }
+
+  label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+
+  input {
+    font: inherit;
+    padding: 0.65rem 0.8rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: #fff;
+
+    &:focus {
+      outline: 2px solid var(--primary);
+      border-color: transparent;
+    }
+  }
+
+  form button[type='submit'] {
+    margin-top: 0.4rem;
+  }
+
+  > button {
+    width: 100%;
+    margin-top: 0.75rem;
+    background: transparent;
+    color: var(--primary);
+    border: 1px solid var(--primary);
+
+    &:hover {
+      background: var(--primary-soft);
+    }
+  }
+
+  p {
+    margin: 0;
+    text-align: center;
+    font-size: 0.9rem;
+  }
+}
+
+.error,
+.success {
+  margin: 0;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+}
+
+.error {
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+
+.success {
+  background: var(--success-soft);
+  color: var(--success);
+}
+
+.hint {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+/* ---------- Cartes réutilisables (plats, pays, favoris...) ---------- */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.25rem;
+}
