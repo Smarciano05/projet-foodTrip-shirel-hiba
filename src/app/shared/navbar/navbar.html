@@ -1,1 +1,14 @@
-<p>navbar works!</p>
+<nav>
+  <a routerLink="/roulette" routerLinkActive="active">Roulette</a>
+  <a routerLink="/recipes" routerLinkActive="active">Recettes</a>
+  <a routerLink="/map" routerLinkActive="active">Carte</a>
+  <a routerLink="/journal" routerLinkActive="active">Carnet</a>
+
+  @if (auth.isLoggedIn()) {
+  <a routerLink="/profile" routerLinkActive="active">{{ auth.user()?.name }}</a>
+  <button type="button" (click)="auth.logout()">Déconnexion</button>
+  } @else {
+  <a routerLink="/login" routerLinkActive="active">Connexion</a>
+  <a routerLink="/register" routerLinkActive="active">Inscription</a>
+  }
+</nav>

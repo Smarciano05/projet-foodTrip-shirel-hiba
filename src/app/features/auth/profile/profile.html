@@ -1,1 +1,32 @@
-<p>profile works!</p>
+<section class="auth">
+  <h1>Mon profil</h1>
+
+  @if (loading()) {
+  <p>Chargement...</p>
+  } @else {
+  <form [formGroup]="form" (ngSubmit)="save()">
+    <label>
+      Nom
+      <input type="text" formControlName="name" />
+    </label>
+    @if (form.controls.name.touched && form.controls.name.invalid) {
+    <p class="error">Le nom est obligatoire.</p>
+    }
+
+    <label>
+      Email
+      <input type="email" formControlName="email" />
+    </label>
+    @if (form.controls.email.touched && form.controls.email.invalid) {
+    <p class="error">Entrez un email valide.</p>
+    }
+
+    @if (message()) { <p class="success">{{ message() }}</p> }
+    @if (error()) { <p class="error">{{ error() }}</p> }
+
+    <button type="submit">Enregistrer</button>
+  </form>
+
+  <button type="button" (click)="logout()">Se déconnecter</button>
+  }
+</section>
