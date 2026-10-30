@@ -1,1 +1,62 @@
-<p>roulette works!</p>
+<h1>🎲 Roulette culinaire</h1>
+
+<p>Clique sur le bouton pour découvrir un pays et sa cuisine !</p>
+
+<button (click)="spinRoulette()">
+  Lancer la roulette
+</button>
+
+<p>Nombre de pays chargés : {{ countries().length }}</p>
+
+@if (selectedCountry(); as country) {
+  <section>
+    <h2>{{ country.flag }} {{ country.name }}</h2>
+    <p>Capitale : {{ country.capital || 'Inconnue' }}</p>
+    <p>Continent : {{ country.region || 'Inconnue' }}</p>
+    <p>Population : {{ country.population | number }}</p>
+
+    <h3>🍽️ Plats typiques</h3>
+
+    @if (loadingMeals()) {
+      <p>Chargement des recettes...</p>
+    } @else if (noMeals()) {
+      <p>Aucune recette disponible pour ce pays.</p>
+    } @else {
+      @for (meal of meals(); track meal.idMeal) {
+        <div>
+          <img [src]="meal.strMealThumb" [alt]="meal.strMeal" width="150" />
+          <p>{{ meal.strMeal }}</p>
+
+          @if (openMealId() === meal.idMeal) {
+            <button (click)="closeRecipe()">Fermer la recette</button>
+          } @else {
+            <button (click)="showRecipe(meal.idMeal)">Voir la recette</button>
+          }
+
+          <!-- Recette affichée juste sous ce plat -->
+          @if (openMealId() === meal.idMeal) {
+            @if (loadingRecipe()) {
+              <p>Chargement de la recette...</p>
+            }
+
+            @if (selectedRecipe(); as recipe) {
+              <article>
+                <p>Catégorie : {{ recipe.strCategory }}</p>
+
+                <h4>Ingrédients</h4>
+                <ul>
+                  @for (item of ingredients(); track item.name) {
+                    <li>{{ item.measure }} {{ item.name }}</li>
+                  }
+                </ul>
+
+                <h4>Instructions</h4>
+                <p>{{ recipe.strInstructions }}</p>
+              </article>
+            }
+          }
+        </div>
+      }
+    }
+  </section>
+}
