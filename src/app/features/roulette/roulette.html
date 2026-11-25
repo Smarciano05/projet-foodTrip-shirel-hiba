@@ -1,97 +1,198 @@
 
-<h1>🎲 Roulette culinaire</h1>
+<div class="roulette-page">
 
-<p>Clique sur le bouton pour découvrir un pays et sa cuisine !</p>
+  <header class="roulette-header">
+    <span class="eyebrow">FOODTRIP · WORLD FOOD</span>
 
-<div class="roulette-container">
-  <div class="pointer">▼</div>
+    <h1>Et si on voyageait dans l'assiette ?</h1>
 
-  <div
-    class="wheel"
-    [style.transform]="'rotate(' + rotation + 'deg)'"
-  >
-    <div class="wheel-content">
-      <span class="emoji e1">🍕</span>
-      <span class="emoji e2">🍣</span>
-      <span class="emoji e3">🌮</span>
-      <span class="emoji e4">🍜</span>
-      <span class="emoji e5">🥘</span>
-      <span class="emoji e6">🍛</span>
-      <span class="emoji e7">🥗</span>
-      <span class="emoji e8">🍝</span>
+    <p>
+      Laisse le hasard choisir une destination et découvre
+      les spécialités culinaires du monde.
+    </p>
+  </header>
+
+  <main>
+
+    <div class="roulette-container">
+
+      <div class="roulette-intro">
+        <span>DESTINATION AU HASARD</span>
+        <h2>Quelle cuisine vas-tu découvrir ?</h2>
+      </div>
+
+      <div class="wheel-wrapper">
+
+        <div class="pointer">▼</div>
+
+        <div
+          class="wheel"
+          [style.transform]="'rotate(' + rotation + 'deg)'"
+          [style.background]="wheelBackground"
+        >
+
+        </div>
+
+        <div
+          class="wheel-center"
+          [class.is-spinning]="spinning()"
+          [attr.aria-label]="selectedCountry()?.name ?? 'Drapeau du pays sélectionné'"
+          aria-live="polite"
+        >
+          <span>{{ centerFlag() }}</span>
+        </div>
+
+      </div>
+
+      <button
+        class="spin-button"
+        (click)="spinWheel()"
+        [disabled]="spinning() || loadingMeals()"
+      >
+        @if (spinning()) {
+          La roulette tourne...
+        } @else if (loadingMeals()) {
+          Chargement des recettes...
+        } @else {
+          <span>✦</span> Lancer la roulette
+        }
+      </button>
+
+      <p class="loading-text">{{ countries().length }} destinations culinaires disponibles</p>
+
     </div>
 
-    <div class="wheel-center">🌍</div>
-  </div>
-
-  <button (click)="spinWheel()">
-    🎲 Lancer la roulette
-  </button>
-</div>
-
-<p>Nombre de pays chargés : {{ countries().length }}</p>
-
-@if (selectedCountry(); as country) {
-  <section>
-    <h2>{{ country.flag }} {{ country.name }}</h2>
-
-    <p>Capitale : {{ country.capital || 'Inconnue' }}</p>
-    <p>Continent : {{ country.region || 'Inconnue' }}</p>
-    <p>Population : {{ country.population | number }}</p>
-
-    <h3>🍽️ Plats typiques</h3>
-
-    @if (loadingMeals()) {
-      <p>Chargement des recettes...</p>
-    } @else if (noMeals()) {
-      <p>Aucune recette disponible pour ce pays.</p>
-    } @else {
-      <div class="meals-grid">
-        @for (meal of meals(); track meal.idMeal) {
-          <div class="meal-card">
-            <img
-              [src]="meal.strMealThumb"
-              [alt]="meal.strMeal"
-              width="150"
-            />
-
-            <h4>{{ meal.strMeal }}</h4>
-
-            @if (openMealId() === meal.idMeal) {
-              <button (click)="closeRecipe()">
-                Fermer la recette
-              </button>
-            } @else {
-              <button (click)="showRecipe(meal.idMeal)">
-                Voir la recette
-              </button>
-            }
-
-            @if (openMealId() === meal.idMeal) {
-              @if (loadingRecipe()) {
-                <p>Chargement de la recette...</p>
-              }
-
-              @if (selectedRecipe(); as recipe) {
-                <article>
-                  <p>Catégorie : {{ recipe.strCategory }}</p>
-
-                  <h4>Ingrédients</h4>
-
-                  <ul>
-                    @for (item of ingredients(); track item.name) {
-                      <li>{{ item.measure }} {{ item.name }}</li>
-                    }
-                  </ul>
-
-                  <h4>Instructions</h4>
-                  <p>{{ recipe.strInstructions }}</p>
-                </article>
-              }
-            }
-          </div>
-        }
+    @if (spinning()) {
+      <div class="status-message">
+        <span>✈️</span>
+        Recherche de ta prochaine destination...
       </div>
     }
-  </section>
-}
+
+    @if (selectedCountry(); as country) {
+
+      <section class="country-result">
+
+        <div class="result-heading">
+          <span class="eyebrow">TA PROCHAINE DESTINATION</span>
+
+          <h2>
+            {{ country.flag }}
+            {{ country.name }}
+          </h2>
+
+          <p>
+            Prépare-toi à découvrir les saveurs de ce pays.
+          </p>
+        </div>
+
+        <div class="country-infos">
+
+          <div class="info-item">
+            <span>📍</span>
+            <div>
+              <small>Capitale</small>
+              <strong>{{ country.capital || 'Non renseignée' }}</strong>
+            </div>
+          </div>
+
+          <div class="info-item">
+            <span>🌎</span>
+            <div>
+              <small>Continent</small>
+              <strong>{{ country.region || 'Non renseigné' }}</strong>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="meals-heading">
+          <span class="eyebrow">SPÉCIALITÉS LOCALES</span>
+          <h3>Les saveurs à découvrir</h3>
+          <p>Voici quelques plats typiques de cette destination.</p>
+        </div>
+
+        @if (loadingMeals()) {
+          <div class="loading-meals">
+            <span>🍽️</span>
+            <p>Nous recherchons les spécialités culinaires...</p>
+          </div>
+        }
+
+        @else if (noMeals()) {
+          <div class="empty-state">
+            <span>🍴</span>
+            <h3>Aucun plat disponible</h3>
+            <p>Essaie une nouvelle destination !</p>
+          </div>
+        }
+
+        @else if (mealError()) {
+          <div class="empty-state">
+            <span>⚠️</span>
+            <h3>Impossible de charger les recettes</h3>
+            <p>Le pays reste disponible. Réessaie dans un instant.</p>
+          </div>
+        }
+
+        @else {
+
+          <div class="meals-grid">
+
+            @for (meal of meals(); track meal.idMeal) {
+
+              <article class="meal-card">
+
+                <div class="meal-image">
+                  <img
+                    [src]="meal.strMealThumb"
+                    [alt]="meal.strMeal"
+                    loading="lazy"
+                  />
+
+                  <span class="meal-country">
+                    {{ country.flag }} {{ country.name }}
+                  </span>
+                </div>
+
+                <div class="meal-content">
+
+                  <h4>{{ meal.strMeal }}</h4>
+
+                  <p>
+                    Découvre cette spécialité et ses saveurs.
+                  </p>
+
+                  <a
+                    class="recipe-link"
+                    [routerLink]="['/details-recipes', meal.idMeal]"
+                  >
+                    Découvrir la recette
+                  </a>
+
+
+                </div>
+
+              </article>
+
+            }
+
+          </div>
+
+        }
+
+        <button
+          class="another-spin"
+          (click)="spinWheel()"
+          [disabled]="spinning()"
+        >
+          ↻ Découvrir un autre pays
+        </button>
+
+      </section>
+
+    }
+
+  </main>
+
+</div>

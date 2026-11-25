@@ -1,23 +1,46 @@
-<p>map works!</p>
+<main class="map-page">
+  <header class="map-header">
+    <span class="eyebrow">FOODTRIP · À PROXIMITÉ</span>
+    <h1>Trouve ta prochaine adresse gourmande</h1>
+    <p>Choisis une cuisine et une adresse pour découvrir les restaurants autour de toi.</p>
+  </header>
 
-<div id="map"></div>
+  <section class="map-panel" aria-label="Recherche de restaurants">
+    <form class="search-form" (ngSubmit)="searchRestaurants()">
+      <label>
+        <span>Adresse en France</span>
+        <input
+          type="search"
+          name="address"
+          [(ngModel)]="address"
+          placeholder="Ex. 10 rue de Rivoli, Paris"
+          autocomplete="street-address"
+          required
+        />
+      </label>
 
+      <label>
+        <span>Type de cuisine</span>
+        <select name="cuisine" [(ngModel)]="selectedCuisine">
+          <option value="">Toutes les cuisines</option>
+          @for (cuisine of cuisines; track cuisine.tag) {
+            <option [value]="cuisine.tag">{{ cuisine.label }}</option>
+          }
+        </select>
+      </label>
 
-<div class="map-container">
-  <h2>Découvrir les restaurants autour de moi</h2>
+      <button type="submit" [disabled]="loading || !address.trim()">
+        {{ loading ? 'Recherche…' : 'Rechercher' }}
+      </button>
+    </form>
 
-  <div class="search-bar">
-    <input
-      type="text"
-      [(ngModel)]="address"
-      placeholder="Entrez une adresse..."
-    />
+    <p class="search-hint">Les restaurants sont recherchés dans un rayon de 3 km. Les résultats dépendent des informations disponibles dans OpenStreetMap.</p>
 
-    <button (click)="searchRestaurants()">
-      Rechercher
-    </button>
-  </div>
+    @if (status) {
+      <p class="search-status" role="status" aria-live="polite">{{ status }}</p>
+    }
 
-  <div id="map"></div>
-</div>
-
+    <div id="map" aria-label="Carte des restaurants trouvés"></div>
+    <p class="map-attribution">Carte © OpenStreetMap contributors</p>
+  </section>
+</main>

@@ -1,33 +1,155 @@
-
-
-.map-container {
-  padding: 20px;
+:host {
+  display: block;
+  min-height: 100vh;
+  color: #442451;
+  background: #fff0f7;
+  font-family: 'Poppins', 'Segoe UI', sans-serif;
 }
 
-.search-bar {
+.map-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 48px 24px 72px;
+}
+
+.map-header {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.eyebrow {
+  color: #ff8618;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 3px;
+}
+
+.map-header h1 {
+  margin: 12px 0;
+  color: #39005c;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  line-height: 1.2;
+}
+
+.map-header p {
+  margin: 0;
+  color: #927d9b;
+}
+
+.map-panel {
+  padding: 24px;
+  background: #fff;
+  border: 1px solid #f5e5f0;
+  border-radius: 20px;
+  box-shadow: 0 12px 40px rgb(57 0 92 / 7%);
+}
+
+.search-form {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(200px, 1fr) auto;
+  align-items: end;
+  gap: 14px;
+}
+
+.search-form label {
   display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
+  flex-direction: column;
+  gap: 7px;
+  color: #442451;
+  font-size: 0.88rem;
+  font-weight: 700;
 }
 
-.search-bar input {
-  flex: 1;
-  padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+.search-form input,
+.search-form select {
+  width: 100%;
+  min-height: 48px;
+  padding: 10px 12px;
+  color: #442451;
+  background: #fff;
+  border: 1px solid #e6d9e8;
+  border-radius: 9px;
+  font: inherit;
 }
 
-.search-bar button {
-  padding: 12px 20px;
-  border: none;
-  border-radius: 8px;
-  background-color: #e87535;
-  color: white;
+.search-form input:focus,
+.search-form select:focus {
+  border-color: #67258a;
+  outline: 3px solid rgb(103 37 138 / 12%);
+}
+
+.search-form button {
+  min-height: 48px;
+  padding: 0 22px;
+  color: #fff;
+  background: #39005c;
+  border: 0;
+  border-radius: 9px;
+  font: inherit;
+  font-weight: 700;
   cursor: pointer;
+  transition: background 0.2s;
+}
+
+.search-form button:hover:not(:disabled) {
+  background: #ff8618;
+}
+
+.search-form button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.search-hint,
+.map-attribution {
+  color: #927d9b;
+  font-size: 0.8rem;
+}
+
+.search-hint {
+  margin: 12px 0;
+}
+
+.search-status {
+  min-height: 1.5em;
+  margin: 12px 0;
+  color: #67258a;
+  font-weight: 700;
 }
 
 #map {
+  z-index: 0;
   width: 100%;
-  height: 500px;
-  border-radius: 12px;
+  height: min(65vh, 650px);
+  min-height: 400px;
+  overflow: hidden;
+  border: 1px solid #eaddec;
+  border-radius: 14px;
+}
+
+.map-attribution {
+  margin: 8px 0 0;
+  text-align: right;
+}
+
+@media (max-width: 720px) {
+  .map-page {
+    padding: 32px 14px 48px;
+  }
+
+  .map-panel {
+    padding: 16px;
+  }
+
+  .search-form {
+    grid-template-columns: 1fr;
+  }
+
+  .search-form button {
+    width: 100%;
+  }
+
+  #map {
+    min-height: 360px;
+  }
 }

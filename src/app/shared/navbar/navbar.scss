@@ -1,75 +1,209 @@
-nav {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  padding: 0.75rem 1.5rem;
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
+
+$purple: #39005c;
+$purple-light: #67258a;
+$orange: #ff8618;
+$yellow: #ffc928;
+$pink: #fff0f7;
+$white: #ffffff;
+$text: #442451;
+$muted: #927d9b;
+
+:host {
+  display: block;
   position: sticky;
   top: 0;
-  z-index: 10;
+  z-index: 100;
 }
 
-.brand {
-  font-weight: 800;
-  font-size: 1.2rem;
-  color: var(--primary);
-  text-decoration: none;
+// NAVBAR
+
+.navbar {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(15px);
+  border-bottom: 1px solid #f0e4f2;
+  box-shadow: 0 4px 20px rgba(57, 0, 92, 0.06);
 }
 
-.links,
-.account {
+.nav-container {
+  max-width: 1400px;
+  min-height: 82px;
+  margin: 0 auto;
+  padding: 12px 35px;
+
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  justify-content: space-between;
+  gap: 25px;
 }
 
+// LOGO
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.brand-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.7rem;
+  background: #fff0d5;
+  border-radius: 16px;
+  transition: transform 0.25s;
+}
+
+.brand:hover .brand-icon {
+  transform: rotate(-10deg) scale(1.08);
+}
+
+.brand-name {
+  font-size: 1.90rem;
+  font-weight: 900;
+  letter-spacing: -1px;
+  color: $purple;
+}
+
+.brand-name span {
+  color: $orange;
+}
+
+// LIENS
+
 .links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
   flex: 1;
 }
 
-a:not(.brand) {
-  padding: 0.4rem 0.8rem;
-  border-radius: 8px;
-  color: var(--text);
+.links a {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 11px 14px;
+
+  color: $text;
+  font-size: 22px;
+  font-weight: 650;
   text-decoration: none;
-  font-weight: 500;
+  white-space: nowrap;
+
+  border-radius: 13px;
+  transition: all 0.2s ease;
+
+  span {
+    font-size: 1.05rem;
+  }
 
   &:hover {
-    background: var(--primary-soft);
+    color: $purple;
+    background: $pink;
+    transform: translateY(-2px);
   }
 
   &.active {
-    background: var(--primary-soft);
-    color: var(--primary-dark);
-    font-weight: 700;
-  }
-
-  &.cta {
-    background: var(--primary);
-    color: #fff;
-
-    &:hover {
-      background: var(--primary-dark);
-    }
+    color: $purple;
+    background: #f3e6fa;
+    font-weight: 800;
   }
 }
 
-button {
-  padding: 0.4rem 0.8rem;
-  font-size: 0.9rem;
+// COMPTE
+
+.account {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  flex-shrink: 0;
 }
 
-/* Petits écrans : la barre passe sur plusieurs lignes */
-@media (max-width: 760px) {
-  nav {
-    flex-wrap: wrap;
-    gap: 0.5rem 1rem;
-  }
+.login-link {
+  color: $purple;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 22px;
+  padding: 10px;
 
-  .links {
-    order: 3;
-    flex-basis: 100%;
-    flex-wrap: wrap;
+  &:hover {
+    color: $orange;
   }
 }
+
+.cta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 13px 21px;
+  border-radius: 999px;
+
+  background: linear-gradient(135deg, $orange, $yellow);
+  color: $purple;
+
+  font-size: 17px;
+  font-weight: 850;
+  text-decoration: none;
+
+  box-shadow: 0 5px 13px rgba(255, 134, 24, 0.2);
+  transition: all 0.2s;
+
+  span {
+    font-size: 1.2rem;
+  }
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 18px rgba(255, 134, 24, 0.3);
+  }
+}
+
+// PROFIL
+
+.profile-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 13px;
+
+  color: $purple;
+  background: $pink;
+  border-radius: 999px;
+
+  font-size: 22px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.user-icon {
+  font-size: 1.1rem;
+}
+
+// DECONNEXION
+
+.logout-btn {
+  padding: 10px 15px;
+  border: 1px solid #f0dce9;
+  border-radius: 999px;
+
+  background: $white;
+  color: #a34d68;
+
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    background: #fff0f0;
+    border-color: #e9a6a6;
+  }
+}
+

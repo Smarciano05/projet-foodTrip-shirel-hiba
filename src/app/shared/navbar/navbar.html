@@ -1,20 +1,64 @@
-<nav>
-  <a class="brand" routerLink="/roulette">🍜 Food Trip</a>
 
-  <div class="links">
-    <a routerLink="/roulette" routerLinkActive="active">Roulette</a>
-    <a routerLink="/recipes" routerLinkActive="active">Recettes</a>
-    <a routerLink="/map" routerLinkActive="active">Carte</a>
-    <a routerLink="/journal" routerLinkActive="active">Carnet</a>
-  </div>
+<nav class="navbar">
+  <div class="nav-container">
 
-  <div class="account">
-    @if (auth.isLoggedIn()) {
-    <a routerLink="/profile" routerLinkActive="active">👤 {{ auth.user()?.name }}</a>
-    <button type="button" class="secondary" (click)="auth.logout()">Déconnexion</button>
-    } @else {
-    <a routerLink="/login" routerLinkActive="active">Connexion</a>
-    <a routerLink="/register" class="cta">Inscription</a>
-    }
+    <!-- LOGO -->
+    <a class="brand" routerLink="/roulette">
+      <span class="brand-icon">🍜</span>
+      <span class="brand-name">Food<span>Trip</span></span>
+    </a>
+
+    <!-- NAVIGATION -->
+    <div class="links">
+
+      <a routerLink="/roulette" routerLinkActive="active">
+        <span>🎲</span> Roulette
+      </a>
+
+      <a routerLink="/recipes" routerLinkActive="active">
+        <span>🍳</span> Recettes
+      </a>
+
+      <a routerLink="/map" routerLinkActive="active">
+        <span>📍</span> Restaurants
+      </a>
+
+      <a routerLink="/journal" routerLinkActive="active">
+        <span>📔</span> Mon carnet
+      </a>
+
+    </div>
+
+    <!-- COMPTE -->
+    <div class="account">
+
+      @if (auth.isLoggedIn()) {
+
+        <a routerLink="/profile" class="profile-link">
+          <span class="user-icon">👤</span>
+          {{ auth.user()?.name }}
+        </a>
+
+        <button
+          type="button"
+          class="logout-btn"
+          (click)="auth.logout()">
+          Déconnexion
+        </button>
+
+      } @else {
+
+        <a routerLink="/login" class="login-link">
+          Connexion
+        </a>
+
+        <a routerLink="/register" class="cta">
+          S'inscrire <span>→</span>
+        </a>
+
+      }
+
+    </div>
+
   </div>
 </nav>

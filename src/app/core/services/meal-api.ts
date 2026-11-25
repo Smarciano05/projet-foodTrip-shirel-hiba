@@ -2,6 +2,12 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
 //récupérera les recettes.
+
+export interface MealArea {
+  strArea: string;
+  strCountry: string;
+}
+
 @Injectable({ providedIn: 'root' })
 export class MealApi {
   private http = inject(HttpClient);
@@ -10,6 +16,12 @@ export class MealApi {
   private meals(url: string, params: Record<string, string> = {}): Observable<any[]> {
     return this.http
       .get<{ meals: any[] | null }>(`${this.base}/${url}`, { params })
+      .pipe(map((res) => res.meals ?? []));
+  }
+
+  areas(): Observable<MealArea[]> {
+    return this.http
+      .get<{ meals: MealArea[] | null }>(`${this.base}/list.php?a=list`)
       .pipe(map((res) => res.meals ?? []));
   }
 
