@@ -1,0 +1,405 @@
+// ===== Variables =====
+$wheel-size: 340px;
+$emoji-radius: 120px;
+$orange: #ff7a18;
+$red: #e63946;
+$cream: #fffaf5;
+$border: #f2e3d7;
+$dark: #3a2a20;
+
+:host {
+  display: block;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 24px 16px 60px;
+  text-align: center;
+  color: $dark;
+}
+
+h1 {
+  font-size: 2.4rem;
+  margin-bottom: 4px;
+}
+
+// ===== Roulette =====
+.roulette-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+  margin: 30px 0 20px;
+}
+
+// Flèche
+.pointer {
+  position: absolute;
+  top: -22px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  font-size: 2.6rem;
+  line-height: 1;
+  color: $red;
+  filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.35));
+  animation: bounce 1s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50%      { transform: translateX(-50%) translateY(6px); }
+}
+
+// La roue
+.wheel {
+  position: relative;
+  width: $wheel-size;
+  height: $wheel-size;
+  border-radius: 50%;
+  border: 12px solid #fff;
+  box-shadow:
+    0 0 0 6px $orange,
+    0 0 0 10px #fff,
+    0 14px 40px rgba(230, 57, 70, 0.35);
+
+  // 8 parts colorées
+  background: conic-gradient(
+      #ff6b6b 0deg 45deg,
+      #ffd93d 45deg 90deg,
+      #6bcB77 90deg 135deg,
+      #4d96ff 135deg 180deg,
+      #ff9f43 180deg 225deg,
+      #c77dff 225deg 270deg,
+      #ff6bb5 270deg 315deg,
+      #2ec4b6 315deg 360deg
+  );
+
+  // Animation de rotation (le TS ajoute des degrés à chaque clic)
+  transition: transform 4.5s cubic-bezier(0.15, 0.7, 0.1, 1);
+  will-change: transform;
+}
+
+// Les emojis
+.wheel-content {
+  position: absolute;
+  inset: 0;
+}
+
+.emoji {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 62px;
+  height: 62px;
+  margin: -31px 0 0 -31px; // centre la pastille
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.3rem;
+  line-height: 1;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+}
+
+// Petit texte au-dessus de chaque icône
+.emoji::before {
+  position: absolute;
+  bottom: calc(100% + 4px);
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 2px 8px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  line-height: 1.2;
+  white-space: nowrap;
+  color: $dark;
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 999px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+$labels: 'Pizza', 'Sushi', 'Tacos', 'Nouilles', 'Paella', 'Curry', 'Salade', 'Pâtes';
+@for $i from 1 through 8 {
+  .e#{$i}::before {
+    content: '#{nth($labels, $i)}';
+  }
+}
+
+// Chaque emoji au milieu de sa part, et remis droit (contre-rotation)
+@for $i from 1 through 8 {
+  $angle: 22.5deg + 45deg * ($i - 1);
+  .e#{$i} {
+    transform: rotate($angle) translateY(-$emoji-radius) rotate(-$angle);
+  }
+}
+
+// Centre de la roue
+.wheel-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 76px;
+  height: 76px;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.4rem;
+  background: #fff;
+  border-radius: 50%;
+  border: 5px solid $orange;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+// Gros bouton
+.roulette-container > button {
+  padding: 16px 36px;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #fff;
+  background: linear-gradient(135deg, $orange, $red);
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow: 0 8px 0 #b3202c, 0 14px 24px rgba(230, 57, 70, 0.4);
+  transition: transform 0.15s, box-shadow 0.15s;
+
+  &:hover {
+    transform: translateY(-3px) scale(1.04);
+  }
+
+  &:active {
+    transform: translateY(6px);
+    box-shadow: 0 2px 0 #b3202c, 0 4px 10px rgba(230, 57, 70, 0.4);
+  }
+}
+
+// ===== Résultat =====
+section {
+  margin-top: 30px;
+  padding: 24px;
+  background: #fff;
+  border: 1px solid $border;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+  animation: pop 0.4s ease-out;
+}
+
+@keyframes pop {
+  from { opacity: 0; transform: translateY(20px) scale(0.97); }
+  to   { opacity: 1; transform: none; }
+}
+
+section h2 {
+  font-size: 2rem;
+  margin: 0 0 10px;
+}
+
+// ===== Plats =====
+.meals-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 22px;
+  align-items: start;
+  text-align: left;
+}
+
+.meal-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background: $cream;
+  border: 2px solid $border;
+  border-radius: 20px;
+  padding: 14px 14px 18px;
+  transition: transform 0.25s, box-shadow 0.25s;
+
+  &:hover {
+    transform: translateY(-6px) rotate(-1deg);
+    box-shadow: 0 14px 28px rgba(230, 57, 70, 0.18);
+  }
+
+  // Grande image bien visible
+  img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    height: auto;
+    object-fit: cover;
+    border-radius: 16px;
+    border: 4px solid #fff;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
+    transition: transform 0.3s;
+  }
+
+  &:hover img {
+    transform: scale(1.03) rotate(1deg);
+  }
+
+  h4 {
+    margin: 14px 0 12px;
+    font-size: 1.1rem;
+    line-height: 1.25;
+  }
+
+  button {
+    padding: 9px 20px;
+    font-weight: 800;
+    color: #fff;
+    background: linear-gradient(135deg, $orange, $red);
+    border: none;
+    border-radius: 999px;
+    cursor: pointer;
+    box-shadow: 0 4px 0 #b3202c;
+    transition: transform 0.1s, box-shadow 0.1s;
+
+    &:hover { transform: translateY(-2px); }
+    &:active {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 #b3202c;
+    }
+  }
+
+  // Message "Chargement de la recette..."
+  > p {
+    margin: 12px 0 0;
+    font-style: italic;
+  }
+
+  // ----- Recette ouverte : la carte prend toute la largeur -----
+  &:has(article) {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: minmax(220px, 1fr) 1.6fr;
+    column-gap: 28px;
+    align-items: start;
+    text-align: left;
+    background: #fff;
+    border-color: $orange;
+    box-shadow: 0 16px 40px rgba(255, 122, 24, 0.25);
+    animation: pop 0.35s ease-out;
+
+    &:hover { transform: none; }
+
+    img {
+      grid-column: 1;
+      grid-row: 1 / span 3;
+      aspect-ratio: 1 / 1;
+    }
+
+    h4 {
+      grid-column: 2;
+      grid-row: 1;
+      margin: 4px 0 0;
+      font-size: 1.6rem;
+    }
+
+    button {
+      grid-column: 2;
+      grid-row: 2;
+      justify-self: start;
+      margin: 10px 0;
+    }
+
+    article {
+      grid-column: 2;
+      grid-row: 3;
+      margin: 0;
+    }
+  }
+
+  article {
+    margin-top: 14px;
+    text-align: left;
+    font-size: 0.95rem;
+    line-height: 1.6;
+
+    h4 {
+      margin: 16px 0 8px;
+      font-size: 1.1rem;
+      color: $red;
+    }
+
+    // Catégorie en badge
+    > p:first-child {
+      display: inline-block;
+      margin: 0;
+      padding: 4px 14px;
+      font-weight: 700;
+      color: #fff;
+      background: #2ec4b6;
+      border-radius: 999px;
+    }
+
+    // Ingrédients en petites pastilles
+    ul {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      padding: 5px 12px;
+      font-size: 0.85rem;
+      background: #fff3e0;
+      border: 1px solid #ffd9a8;
+      border-radius: 999px;
+    }
+
+    // Instructions dans un bloc défilant
+    h4:last-of-type + p {
+      max-height: 220px;
+      overflow-y: auto;
+      margin: 0;
+      padding: 12px 14px;
+      white-space: pre-line;
+      background: $cream;
+      border-left: 5px solid $orange;
+      border-radius: 10px;
+    }
+  }
+}
+
+// ===== Mobile =====
+@media (max-width: 420px) {
+  $small: 270px;
+
+  .wheel {
+    width: $small;
+    height: $small;
+  }
+
+  .emoji::before {
+    font-size: 0.62rem;
+    padding: 1px 6px;
+  }
+
+  .emoji {
+    width: 50px;
+    height: 50px;
+    margin: -25px 0 0 -25px;
+    font-size: 1.8rem;
+  }
+
+  @for $i from 1 through 8 {
+    $angle: 22.5deg + 45deg * ($i - 1);
+    .e#{$i} {
+      transform: rotate($angle) translateY(-96px) rotate(-$angle);
+    }
+  }
+}
+
+@media (max-width: 700px) {
+  .meal-card:has(article) {
+    display: flex;
+    text-align: center;
+
+    h4 { margin: 14px 0 12px; font-size: 1.2rem; }
+    button { margin: 0; }
+    article { margin-top: 14px; }
+  }
+}

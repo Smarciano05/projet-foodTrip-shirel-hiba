@@ -1,1 +1,23 @@
 <p>map works!</p>
+
+<div id="map"></div>
+
+
+<div class="map-container">
+  <h2>Découvrir les restaurants autour de moi</h2>
+
+  <div class="search-bar">
+    <input
+      type="text"
+      [(ngModel)]="address"
+      placeholder="Entrez une adresse..."
+    />
+
+    <button (click)="searchRestaurants()">
+      Rechercher
+    </button>
+  </div>
+
+  <div id="map"></div>
+</div>
+

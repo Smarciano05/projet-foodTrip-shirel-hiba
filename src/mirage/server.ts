@@ -31,8 +31,11 @@ export function makeServer() {
       this.passthrough('https://api.restcountries.com/**');
       this.passthrough('https://flags.restcountries.com/**');
       this.passthrough('https://data.geopf.fr/**');
-      this.passthrough('https://overpass-api.de/**');
       this.passthrough('https://nominatim.openstreetmap.org/**');
+      this.passthrough('https://{s}.tile.openstreetmap.org/**');
+      this.passthrough('https://api-adresse.data.gouv.fr/**');
+      this.passthrough('https://overpass-api.de/**');
+      this.passthrough('https://countries.dev/**');
 
       this.namespace = 'api';
       this.timing = 400;

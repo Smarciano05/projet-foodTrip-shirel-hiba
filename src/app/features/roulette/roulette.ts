@@ -47,6 +47,9 @@ export class Roulette implements OnInit {
   private countryService = inject(Country);
   private mealApi = inject(MealApi);
 
+  // Rotation de la roue
+  rotation = 0;
+
   countries = signal<any[]>([]);
   selectedCountry = signal<any>(null);
 
@@ -72,16 +75,28 @@ export class Roulette implements OnInit {
     });
   }
 
+  // Faire tourner la roue puis sélectionner un pays
+  spinWheel(): void {
+    this.rotation += 1800 + Math.random() * 1800;
+    setTimeout(() => this.spinRoulette(), 4500);
+  }
+
+  // Sélectionner un pays au hasard
   spinRoulette(): void {
     const available = this.countries().filter((c) => COUNTRY_TO_AREA[c.name]);
-    if (available.length === 0) return;
+
+    if (available.length === 0) {
+      alert('Aucun pays disponible pour la roulette.');
+      return;
+    }
 
     const randomIndex = Math.floor(Math.random() * available.length);
     const country = available[randomIndex];
+
     this.selectedCountry.set(country);
     console.log('Pays sélectionné :', country);
 
-    // On efface la recette précédente
+    // Effacer la recette précédente
     this.closeRecipe();
 
     this.loadMeals(COUNTRY_TO_AREA[country.name]);
@@ -107,7 +122,7 @@ export class Roulette implements OnInit {
     });
   }
 
-  // Charger la recette d'un plat et l'afficher sous ce plat
+  // Charger la recette d'un plat
   showRecipe(idMeal: string): void {
     this.openMealId.set(idMeal);
     this.loadingRecipe.set(true);
@@ -119,13 +134,17 @@ export class Roulette implements OnInit {
         const recipe = result[0];
         console.log('Recette reçue :', recipe);
 
-        // TheMealDB donne strIngredient1..20 et strMeasure1..20
         const list: { name: string; measure: string }[] = [];
+
         for (let i = 1; i <= 20; i++) {
           const name = recipe?.['strIngredient' + i];
           const measure = recipe?.['strMeasure' + i];
+
           if (name && name.trim() !== '') {
-            list.push({ name: name.trim(), measure: (measure ?? '').trim() });
+            list.push({
+              name: name.trim(),
+              measure: (measure ?? '').trim(),
+            });
           }
         }
 

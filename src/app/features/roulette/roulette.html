@@ -1,16 +1,40 @@
+
 <h1>🎲 Roulette culinaire</h1>
 
 <p>Clique sur le bouton pour découvrir un pays et sa cuisine !</p>
 
-<button (click)="spinRoulette()">
-  Lancer la roulette
-</button>
+<div class="roulette-container">
+  <div class="pointer">▼</div>
+
+  <div
+    class="wheel"
+    [style.transform]="'rotate(' + rotation + 'deg)'"
+  >
+    <div class="wheel-content">
+      <span class="emoji e1">🍕</span>
+      <span class="emoji e2">🍣</span>
+      <span class="emoji e3">🌮</span>
+      <span class="emoji e4">🍜</span>
+      <span class="emoji e5">🥘</span>
+      <span class="emoji e6">🍛</span>
+      <span class="emoji e7">🥗</span>
+      <span class="emoji e8">🍝</span>
+    </div>
+
+    <div class="wheel-center">🌍</div>
+  </div>
+
+  <button (click)="spinWheel()">
+    🎲 Lancer la roulette
+  </button>
+</div>
 
 <p>Nombre de pays chargés : {{ countries().length }}</p>
 
 @if (selectedCountry(); as country) {
   <section>
     <h2>{{ country.flag }} {{ country.name }}</h2>
+
     <p>Capitale : {{ country.capital || 'Inconnue' }}</p>
     <p>Continent : {{ country.region || 'Inconnue' }}</p>
     <p>Population : {{ country.population | number }}</p>
@@ -22,41 +46,52 @@
     } @else if (noMeals()) {
       <p>Aucune recette disponible pour ce pays.</p>
     } @else {
-      @for (meal of meals(); track meal.idMeal) {
-        <div>
-          <img [src]="meal.strMealThumb" [alt]="meal.strMeal" width="150" />
-          <p>{{ meal.strMeal }}</p>
+      <div class="meals-grid">
+        @for (meal of meals(); track meal.idMeal) {
+          <div class="meal-card">
+            <img
+              [src]="meal.strMealThumb"
+              [alt]="meal.strMeal"
+              width="150"
+            />
 
-          @if (openMealId() === meal.idMeal) {
-            <button (click)="closeRecipe()">Fermer la recette</button>
-          } @else {
-            <button (click)="showRecipe(meal.idMeal)">Voir la recette</button>
-          }
+            <h4>{{ meal.strMeal }}</h4>
 
-          <!-- Recette affichée juste sous ce plat -->
-          @if (openMealId() === meal.idMeal) {
-            @if (loadingRecipe()) {
-              <p>Chargement de la recette...</p>
+            @if (openMealId() === meal.idMeal) {
+              <button (click)="closeRecipe()">
+                Fermer la recette
+              </button>
+            } @else {
+              <button (click)="showRecipe(meal.idMeal)">
+                Voir la recette
+              </button>
             }
 
-            @if (selectedRecipe(); as recipe) {
-              <article>
-                <p>Catégorie : {{ recipe.strCategory }}</p>
+            @if (openMealId() === meal.idMeal) {
+              @if (loadingRecipe()) {
+                <p>Chargement de la recette...</p>
+              }
 
-                <h4>Ingrédients</h4>
-                <ul>
-                  @for (item of ingredients(); track item.name) {
-                    <li>{{ item.measure }} {{ item.name }}</li>
-                  }
-                </ul>
+              @if (selectedRecipe(); as recipe) {
+                <article>
+                  <p>Catégorie : {{ recipe.strCategory }}</p>
 
-                <h4>Instructions</h4>
-                <p>{{ recipe.strInstructions }}</p>
-              </article>
+                  <h4>Ingrédients</h4>
+
+                  <ul>
+                    @for (item of ingredients(); track item.name) {
+                      <li>{{ item.measure }} {{ item.name }}</li>
+                    }
+                  </ul>
+
+                  <h4>Instructions</h4>
+                  <p>{{ recipe.strInstructions }}</p>
+                </article>
+              }
             }
-          }
-        </div>
-      }
+          </div>
+        }
+      </div>
     }
   </section>
 }
