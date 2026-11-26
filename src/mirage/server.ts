@@ -34,7 +34,9 @@ export function makeServer() {
       this.passthrough('https://nominatim.openstreetmap.org/**');
       this.passthrough('https://{s}.tile.openstreetmap.org/**');
       this.passthrough('https://api-adresse.data.gouv.fr/**');
+      this.passthrough('https://photon.komoot.io/**');
       this.passthrough('https://overpass-api.de/**');
+      this.passthrough('https://overpass.kumi.systems/**');
       this.passthrough('https://countries.dev/**');
 
       this.namespace = 'api';

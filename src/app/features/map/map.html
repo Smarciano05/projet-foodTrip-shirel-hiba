@@ -8,12 +8,12 @@
   <section class="map-panel" aria-label="Recherche de restaurants">
     <form class="search-form" (ngSubmit)="searchRestaurants()">
       <label>
-        <span>Adresse en France</span>
+        <span>Adresse ou lieu dans le monde</span>
         <input
           type="search"
           name="address"
           [(ngModel)]="address"
-          placeholder="Ex. 10 rue de Rivoli, Paris"
+          placeholder="Ex. 10 rue de Rivoli, Paris ou Times Square, New York"
           autocomplete="street-address"
           required
         />

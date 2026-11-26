@@ -1,0 +1,101 @@
+
+<div class="recipe-page">
+
+  @if (loading()) {
+    <div class="loading-state">
+      <span>🍽️</span>
+      <h2>Préparation de ta recette...</h2>
+      <p>Nous réunissons tous les ingrédients.</p>
+    </div>
+  }
+
+  @else if (error() || !meal()) {
+    <div class="empty-state">
+      <span>🥺</span>
+      <h2>Recette introuvable</h2>
+      <p>Cette recette n'est pas disponible.</p>
+      <a routerLink="/roulette">Retour à la roulette</a>
+    </div>
+  }
+
+  @else {
+    <article class="recipe-content">
+
+      <a class="back-link" routerLink="/roulette">
+        ← Retour à la roulette
+      </a>
+
+      <section class="recipe-hero">
+        <div class="recipe-image">
+          <img [src]="meal()!.strMealThumb" [alt]="meal()!.strMeal">
+        </div>
+
+        <div class="recipe-intro">
+          <span class="eyebrow">FOODTRIP · CARNET DE VOYAGE</span>
+          <h1>{{ meal()!.strMeal }}</h1>
+
+          <p class="recipe-description">
+            Découvre cette spécialité culinaire et apprends à la préparer chez toi.
+          </p>
+
+          <div class="recipe-tags">
+            @if (meal()!.strArea) {
+              <span>🌍 {{ meal()!.strArea }}</span>
+            }
+            @if (meal()!.strCategory) {
+              <span>🍴 {{ meal()!.strCategory }}</span>
+            }
+          </div>
+        </div>
+      </section>
+
+      <section class="ingredients-section">
+        <div class="section-heading">
+          <span class="eyebrow">CE QU'IL TE FAUT</span>
+          <h2>Les ingrédients</h2>
+          <p>Tous les ingrédients nécessaires à ta préparation.</p>
+        </div>
+
+        <div class="ingredients-grid">
+          @for (ingredient of ingredients(); track $index) {
+            <div class="ingredient-item">
+              <span class="ingredient-icon">✦</span>
+              <div>
+                <strong>{{ ingredient.name }}</strong>
+                <small>{{ ingredient.measure || 'Selon tes envies' }}</small>
+              </div>
+            </div>
+          }
+        </div>
+      </section>
+
+      <section class="instructions-section">
+        <div class="section-heading">
+          <span class="eyebrow">À TOI DE JOUER</span>
+          <h2>La préparation</h2>
+          <p>Suis les étapes pour réaliser cette recette.</p>
+        </div>
+
+        <div class="instructions-card">
+          <p>{{ meal()!.strInstructions }}</p>
+        </div>
+
+        @if (meal()!.strYoutube) {
+          <a class="youtube-link"
+             [href]="meal()!.strYoutube"
+             target="_blank"
+             rel="noopener noreferrer">
+            ▶ Voir la vidéo de préparation
+          </a>
+        }
+      </section>
+
+      <div class="recipe-footer">
+        <span>💜</span>
+        <p>Bon appétit et bon voyage dans l'assiette !</p>
+      </div>
+
+    </article>
+  }
+
+</div>

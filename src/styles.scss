@@ -181,3 +181,30 @@ button {
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 1.25rem;
 }
+
+.foodtrip-restaurant-popup {
+  display: grid;
+  gap: 0.4rem;
+  min-width: 190px;
+  color: #442451;
+  font-size: 0.85rem;
+}
+
+.foodtrip-restaurant-popup__name {
+  color: #39005c;
+  font-size: 1rem;
+}
+
+.foodtrip-restaurant-popup__address {
+  color: #6b5b70;
+}
+
+.foodtrip-restaurant-popup__cuisine {
+  width: fit-content;
+  padding: 0.2rem 0.55rem;
+  color: #67258a;
+  background: #f5e5f0;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
